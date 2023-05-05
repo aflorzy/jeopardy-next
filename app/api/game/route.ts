@@ -36,7 +36,7 @@ export interface Game {
   double_jeopardy_round: Round;
 }
 
-export async function GET(request: Request) {
+export function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query: string = searchParams.get("id") || "";
 
