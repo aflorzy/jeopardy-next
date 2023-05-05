@@ -72,7 +72,7 @@ function getCategoryFontSize(title: string): any {
 
 const Board = () => {
   const [gameId, setGameId] = React.useState<string>("");
-  const [gameData, setGameData] = React.useState<Game | null>(INITIAL_GAME);
+  const [gameData, setGameData] = React.useState<Game | null>(null);
   const [activeRound, setActiveRound] = React.useState<Round | null>(
     INITIAL_ROUND
   );
@@ -185,30 +185,28 @@ const Board = () => {
           {gameData.game_title}
         </p>
       )}
-      <div className="game-id-input flex flex-row justify-center items-center gap-2 py-4">
+      <div className="actions-bar flex flex-row w-full justify-center items-center gap-16 py-4">
         <form
           className="search-form flex flex-row gap-2 items-center m-4"
           onSubmit={handleGetGameClick}>
-          <label className="flex flex-row gap-2 items-center font-itc-korinna-std text-white">
-            Game ID
-            <input
-              type="text"
-              id="game-id"
-              className="w-36 p-2 rounded text-black"
-              autoComplete="off"
-              value={gameId}
-              onInput={(val: any) => handleInput(val)}
-            />
-          </label>
+          <input
+            type="text"
+            id="game-id"
+            className="w-36 p-2 rounded text-black font-itc-korinna-std text-cente"
+            autoComplete="off"
+            placeholder="Game ID"
+            value={gameId}
+            onInput={(val: any) => handleInput(val)}
+          />
           <button
-            className="bg-blue-500 hover:bg-blue-700 font-itc-korinna-std text-white py-2 px-4 cursor-pointer rounded"
+            className="bg-green-500 hover:bg-green-700 font-itc-korinna-std text-white py-2 px-4 cursor-pointer rounded disabled:bg-green-900 disabled:cursor-default disabled:text-gray-400"
             type="submit"
-            disabled={!gameId || loading}>
+            disabled={!gameId || loading || gameId === gameData?.id}>
             Go
           </button>
 
           <button
-            className="bg-blue-500 hover:bg-blue-700 font-itc-korinna-std text-white py-2 px-4 cursor-pointer rounded flex flex-row items-center justify-center gap-1"
+            className="bg-fuchsia-500 hover:bg-fuchsia-700 font-itc-korinna-std text-white py-2 px-4 cursor-pointer rounded flex flex-row items-center justify-center gap-1 disabled:bg-fuchsia-900 disabled:cursor-default disabled:text-gray-400"
             type="button"
             disabled={loading}
             onClick={handleRandomGameClick}>
@@ -216,36 +214,41 @@ const Board = () => {
           </button>
         </form>
 
-        <div className="radio-group flex flex-col font-itc-korinna-std">
-          <div className="radio">
-            <label className="flex flex-row gap-2 text-white">
-              <input
-                type="radio"
-                value="single"
-                checked={roundRadioSelected === "single"}
-                onChange={handleRoundChange}
-              />
-              Jeopardy!
-            </label>
+        {gameData && (
+          <div className="game-actions flex flex-row gap-4">
+            <div className="radio-group flex flex-col font-itc-korinna-std">
+              <div className="radio">
+                <label className="flex flex-row gap-2 text-white">
+                  <input
+                    type="radio"
+                    value="single"
+                    checked={roundRadioSelected === "single"}
+                    onChange={handleRoundChange}
+                  />
+                  Jeopardy!
+                </label>
+              </div>
+              <div className="radio">
+                <label className="flex flex-row gap-2 text-white">
+                  <input
+                    type="radio"
+                    value="double"
+                    checked={roundRadioSelected === "double"}
+                    onChange={handleRoundChange}
+                  />
+                  Double Jeopardy!
+                </label>
+              </div>
+            </div>
+
+            <button
+              className="bg-red-500 hover:bg-red-700 font-itc-korinna-std text-white font-bold py-2 px-4 cursor-pointer rounded disabled:bg-red-900 disabled:cursor-default disabled:text-gray-400"
+              disabled={selectedClues.length === 0}
+              onClick={() => setSelctedClues([])}>
+              Reset
+            </button>
           </div>
-          <div className="radio">
-            <label className="flex flex-row gap-2 text-white">
-              <input
-                type="radio"
-                value="double"
-                checked={roundRadioSelected === "double"}
-                onChange={handleRoundChange}
-              />
-              Double Jeopardy!
-            </label>
-          </div>
-        </div>
-        <button
-          className="bg-red-500 hover:bg-red-700 font-itc-korinna-std text-white font-bold py-2 px-4 cursor-pointer rounded"
-          disabled={selectedClues.length === 0}
-          onClick={() => setSelctedClues([])}>
-          Reset Board
-        </button>
+        )}
       </div>
 
       {error && (
