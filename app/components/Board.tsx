@@ -88,6 +88,7 @@ const Board = () => {
     event.preventDefault();
     setLoading(true);
     const data = await fetchGameById(gameId);
+    console.log("Retrieved game by id: ", data);
 
     initializeGame(data);
   };
@@ -96,6 +97,7 @@ const Board = () => {
     event.preventDefault();
     setLoading(true);
     const data = await fetchRandomGame();
+    console.log("Retrieved random game: ", data);
 
     initializeGame(data);
   };

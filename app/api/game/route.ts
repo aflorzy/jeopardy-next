@@ -39,6 +39,7 @@ export interface Game {
 export function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query: string = searchParams.get("id") || "";
+  console.log("Getting game by id: ", query);
 
   return constructGame(query);
 }
@@ -53,6 +54,7 @@ export async function constructGame(id: string | number) {
       const response = await fetch(`${baseUrl}${id}`);
       const html = await response.text();
       fs.writeFileSync(`public/html/${id}.html`, html);
+      console.log("Wrote file");
       $ = cheerio.load(html);
     }
 
