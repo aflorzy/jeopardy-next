@@ -60,14 +60,8 @@ export async function constructGame(id: string | number) {
         fs.writeFileSync(`public/html/${id}.html`, html);
       }
     } else {
-      console.log("Prod mode");
-      if (fs.existsSync(`tmp/html/${id}.html`)) {
-        html = fs.readFileSync(`tmp/html/${id}.html`, "utf8");
-      } else {
-        const response = await fetch(`${baseUrl}${id}`);
-        html = await response.text();
-        fs.writeFileSync(`tmp/html/${id}.html`, html);
-      }
+      const response = await fetch(`${baseUrl}${id}`);
+      html = await response.text();
     }
     $ = cheerio.load(html);
 
