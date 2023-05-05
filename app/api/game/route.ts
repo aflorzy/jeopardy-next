@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import { NextResponse } from "next/server";
 import * as fs from "fs";
+import * as path from "path";
 
 const baseUrl = "https://j-archive.com/showgame.php?game_id=";
 
@@ -48,8 +49,10 @@ export async function constructGame(id: string | number) {
     // See if game html exists locally, else fetch and save
     let $: cheerio.CheerioAPI;
     console.log("Before existsSync");
-    if (fs.existsSync(`public/html/${id}.html`)) {
-      $ = cheerio.load(fs.readFileSync(`public/html/${id}.html`, "utf8"));
+    if (fs.existsSync(path.join(__dirname, `public/html/${id}.html`))) {
+      $ = cheerio.load(
+        fs.readFileSync(path.join(__dirname, `public/html/${id}.html`), "utf8")
+      );
       console.log("Getting game from fs: ", id);
     } else {
       console.log("Fetching game by id: ", id);
@@ -57,7 +60,8 @@ export async function constructGame(id: string | number) {
       console.log("After fetch");
       const html = await response.text();
       console.log("After text");
-      fs.writeFileSync(`public/html/${id}.html`, html);
+      fs.writeFileSync(path.join(__dirname, `public/html/${id}.html`), html);
+      // fs.writeFileSync(`public/html/${id}.html`, html);
       console.log("Wrote file");
       $ = cheerio.load(html);
     }
