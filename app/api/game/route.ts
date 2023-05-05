@@ -39,7 +39,6 @@ export interface Game {
 export function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query: string = searchParams.get("id") || "";
-  console.log("Getting game by id: ", query);
 
   return constructGame(query);
 }
@@ -48,17 +47,24 @@ export async function constructGame(id: string | number) {
   try {
     // See if game html exists locally, else fetch and save
     let $: cheerio.CheerioAPI;
+    console.log("Before existsSync");
     if (fs.existsSync(`public/html/${id}.html`)) {
       $ = cheerio.load(fs.readFileSync(`public/html/${id}.html`, "utf8"));
+      console.log("Getting game from fs: ", id);
     } else {
+      console.log("Fetching game by id: ", id);
       const response = await fetch(`${baseUrl}${id}`);
+      console.log("After fetch");
       const html = await response.text();
+      console.log("After text");
       fs.writeFileSync(`public/html/${id}.html`, html);
       console.log("Wrote file");
       $ = cheerio.load(html);
     }
+    console.log("After fetching game");
 
     if ($(".error")?.text().toLowerCase().includes("error: no game")) {
+      console.log("Invalid id: ", id);
       return NextResponse.json(null);
     }
 
@@ -73,6 +79,7 @@ export async function constructGame(id: string | number) {
 
     return NextResponse.json(game);
   } catch (err: any) {
+    console.log(err);
     return NextResponse.json({
       error: err.message,
     });
