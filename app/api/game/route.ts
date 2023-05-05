@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 const baseUrl = "https://j-archive.com/showgame.php?game_id=";
+const env = process.env.NODE_ENV || "development";
 
 export interface Contestant {
   name: string;
@@ -45,27 +46,30 @@ export function GET(request: Request) {
 }
 
 export async function constructGame(id: string | number) {
+  console.log(__dirname);
   try {
     // See if game html exists locally, else fetch and save
     let $: cheerio.CheerioAPI;
-    console.log("Before existsSync");
-    if (fs.existsSync(path.join(__dirname, `public/html/${id}.html`))) {
-      $ = cheerio.load(
-        fs.readFileSync(path.join(__dirname, `public/html/${id}.html`), "utf8")
-      );
-      console.log("Getting game from fs: ", id);
+    let html: string;
+    if (env === "development") {
+      if (fs.existsSync(`public/html/${id}.html`)) {
+        html = fs.readFileSync(`public/html/${id}.html`, "utf8");
+      } else {
+        const response = await fetch(`${baseUrl}${id}`);
+        html = await response.text();
+        fs.writeFileSync(`public/html/${id}.html`, html);
+      }
     } else {
-      console.log("Fetching game by id: ", id);
-      const response = await fetch(`${baseUrl}${id}`);
-      console.log("After fetch");
-      const html = await response.text();
-      console.log("After text");
-      fs.writeFileSync(path.join(__dirname, `public/html/${id}.html`), html);
-      // fs.writeFileSync(`public/html/${id}.html`, html);
-      console.log("Wrote file");
-      $ = cheerio.load(html);
+      console.log("Prod mode");
+      if (fs.existsSync(`tmp/html/${id}.html`)) {
+        html = fs.readFileSync(`tmp/html/${id}.html`, "utf8");
+      } else {
+        const response = await fetch(`${baseUrl}${id}`);
+        html = await response.text();
+        fs.writeFileSync(`tmp/html/${id}.html`, html);
+      }
     }
-    console.log("After fetching game");
+    $ = cheerio.load(html);
 
     if ($(".error")?.text().toLowerCase().includes("error: no game")) {
       console.log("Invalid id: ", id);
