@@ -31,14 +31,17 @@ async function fetchGameById(gameId: string | number) {
 }
 
 async function fetchRandomGame() {
-  const res = await fetch("api/game/random", {
-    next: {
-      revalidate: 60,
-    },
-  });
+  // const res = await fetch("api/game/random", {
+  //   next: {
+  //     revalidate: 60,
+  //   },
+  // });
 
-  const data = await res.json();
-  return data;
+  // const data = await res.json();
+  // return data;
+  const maxGameId = 10000;
+  const id = new Date().getTime() % maxGameId;
+  return fetchGameById(id);
 }
 
 function getLongestWordLength(phrase: string): number {
