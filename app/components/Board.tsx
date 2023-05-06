@@ -4,6 +4,7 @@ import { Category, Clue, Game, Round } from "../api/game/route";
 import ProgressBar from "./ProgressBar";
 import { HiX } from "react-icons/hi";
 import { BiShuffle } from "react-icons/bi";
+import Script from "next/script";
 
 const INITIAL_ROUND: Round = {
   title: "",
