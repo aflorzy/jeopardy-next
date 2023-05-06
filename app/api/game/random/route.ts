@@ -3,11 +3,13 @@ import { constructGame } from "../route";
 export async function GET() {
   const maxGameId = 10000;
   const maxTries = 10;
-  // Random id based off current time
-  const id = new Date().getTime() % maxGameId;
+  let id;
   let game: any;
   let tries = 0;
   while ((!game || game.error) && tries++ < maxTries) {
+    // Random id based off current time
+    id = new Date().getTime() % maxGameId;
+    console.log(`Trying game with id: ${id}`);
     game = await constructGame(id);
 
     if (!game || game.error) {

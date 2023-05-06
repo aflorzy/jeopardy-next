@@ -1,7 +1,6 @@
 import * as cheerio from "cheerio";
 import { NextResponse } from "next/server";
 import * as fs from "fs";
-import * as path from "path";
 
 const baseUrl = "https://j-archive.com/showgame.php?game_id=";
 const env = process.env.NODE_ENV || "development";
