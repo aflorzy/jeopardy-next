@@ -44,7 +44,7 @@ export function GET(request: Request) {
   return constructGame(query);
 }
 
-export async function constructGame(id: string | number) {
+const constructGame = async (id: string | number) => {
   try {
     // See if game html exists locally, else fetch and save
     let $: cheerio.CheerioAPI;
@@ -85,7 +85,7 @@ export async function constructGame(id: string | number) {
       error: err.message,
     });
   }
-}
+};
 
 const getContestants = ($: cheerio.CheerioAPI) => {
   let contestants: Contestant[] = [];
