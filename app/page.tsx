@@ -1,10 +1,11 @@
 import React from "react";
-import Board from "./components/Board";
+import Random from "./components/Random";
 
 const Home = async () => {
+  const initialRandomId = Math.floor(Math.random() * 8000);
   return (
     <>
-      <Board />
+      <Random randomId={initialRandomId} />
     </>
   );
 };

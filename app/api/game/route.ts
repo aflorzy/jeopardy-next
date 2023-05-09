@@ -45,7 +45,6 @@ export function GET(request: Request) {
 }
 
 export async function constructGame(id: string | number) {
-  console.log(__dirname);
   try {
     // See if game html exists locally, else fetch and save
     let $: cheerio.CheerioAPI;
@@ -53,6 +52,7 @@ export async function constructGame(id: string | number) {
     if (env === "development") {
       if (fs.existsSync(`public/html/${id}.html`)) {
         html = fs.readFileSync(`public/html/${id}.html`, "utf8");
+        console.log("Using existing html file: ", id);
       } else {
         const response = await fetch(`${baseUrl}${id}`);
         html = await response.text();
@@ -65,7 +65,7 @@ export async function constructGame(id: string | number) {
     $ = cheerio.load(html);
 
     if ($(".error")?.text().toLowerCase().includes("error: no game")) {
-      console.log("Invalid id: ", id);
+      console.error("Invalid id: ", id);
       return NextResponse.json(null);
     }
 
@@ -80,7 +80,7 @@ export async function constructGame(id: string | number) {
 
     return NextResponse.json(game);
   } catch (err: any) {
-    console.log(err);
+    console.error(err);
     return NextResponse.json({
       error: err.message,
     });

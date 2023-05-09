@@ -45,33 +45,75 @@
 }
 
 .title {
-  @apply font-itc-korinna-std;
+  @apply font-itc-korinna-std
+  xl:text-[60px]
+  lg:text-[50px]
+  md:text-[40px]
+  sm:text-[30px]
+  xs:text-[18px]
+  2xs:text-[16px]
+  3xs:text-[13px];
   color: #fab85b;
-  font-size: 60px;
 }
-.game-info {
+.subtitle {
+  @apply font-itc-korinna-std
+  xl:text-[30px]
+  lg:text-[25px]
+  md:text-[20px]
+  sm:text-[15px]
+  xs:text-[12px]
+  2xs:text-[10px]
+  3xs:text-[9px];
   color: #fab85b;
 }
 
 .clueValue {
-  @apply font-itc-korinna-std;
-  font-size: 40px;
-  line-height: 40px;
+  @apply font-itc-korinna-std
+  xl:text-[65px]
+  lg:text-[50px]
+  md:text-[38px]
+  sm:text-[31px]
+  xs:text-[24px]
+  2xs:text-[20px]
+  3xs:text-[15px];
   font-weight: 900;
   color: #fab85b;
   text-shadow: 3px 3px #000;
   letter-spacing: -2px;
-
-  -webkit-transform: scale(1, 1.3); /* Safari and Chrome */
-  -moz-transform: scale(1, 1.3); /* Firefox */
-  -ms-transform: scale(1, 1.3); /* IE 9 */
-  -o-transform: scale(1, 1.3); /* Opera */
-  transform: scale(1, 1.3); /* W3C */
-
-  padding: 0;
-  margin: 20px 0;
-  text-align: center;
   font-weight: 700;
+}
+
+.missing-clue {
+  @apply xl:text-[90px]
+  lg:text-[75px]
+  md:text-[55px]
+  sm:text-[45px]
+  xs:text-[35px]
+  2xs:text-[30px]
+  3xs:text-[20px];
+}
+
+.clue-text {
+  @apply font-itc-korinna-std
+  leading-none
+  xl:text-[60px]
+  lg:text-[50px]
+  md:text-[38px]
+  sm:text-[31px]
+  xs:text-[24px]
+  2xs:text-[20px]
+  3xs:text-[15px];
+}
+.clue-answer {
+  @apply font-itc-korinna-std
+  leading-none
+  xl:text-[30px]
+  lg:text-[25px]
+  md:text-[20px]
+  sm:text-[16px]
+  xs:text-[15px]
+  2xs:text-[14px]
+  3xs:text-[10px];
 }
 
 .gameBoard {
@@ -79,10 +121,36 @@
   height: 520px;
 }
 
-.clue-text {
-  padding: 0;
-  margin: 0;
+.cell {
+  /* 7x4 aspect ratio */
+  @apply p-0 m-0
+  bg-blue-800
+
+  xl:w-[207px]
+  lg:w-[164px]
+  md:w-[121.5px]
+  sm:w-[100px]
+  xs:w-[76px]
+  2xs:w-[63.4px]
+  3xs:w-[52px]
+  /* overflow-clip */
+  ;
+  aspect-ratio: 7/4;
 }
+
+.radio {
+  @apply
+  xl:text-[25px]
+  xl:my-4
+  md:text-[20px]
+  md:my-3
+  xs:text-[14px]
+  xs:my-2
+  3xs:text-[10px]
+  3xs:my-1
+  ;
+}
+
 
 .progress {
   height: 100%;
@@ -98,13 +166,12 @@
   animation: animateBG 500s linear infinite;
 }
 
-
 @keyframes animateBG {
   0% {
-    transform: translateX(0px)
+    transform: translateX(0px);
   }
   100% {
-    transform: translateX(-10000px)
+    transform: translateX(-10000px);
   }
 }
 

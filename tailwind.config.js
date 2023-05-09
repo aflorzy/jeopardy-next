@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -17,6 +19,12 @@ module.exports = {
         "itc-korinna-lt2": ["itc-korinna-lt2", "sans-serif"],
         "itc-korinna-lt3": ["itc-korinna-lt3", "sans-serif"],
         "swiss-911-compressed": ["swiss-911-compressed", "sans-serif"],
+      },
+      screens: {
+        xs: "475px",
+        "2xs": "400px",
+        "3xs": "325px",
+        ...defaultTheme.screens,
       },
     },
   },

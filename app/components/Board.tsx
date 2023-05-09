@@ -4,7 +4,6 @@ import { Category, Clue, Game, Round } from "../api/game/route";
 import ProgressBar from "./ProgressBar";
 import { HiX } from "react-icons/hi";
 import { BiShuffle } from "react-icons/bi";
-import Script from "next/script";
 
 const INITIAL_ROUND: Round = {
   title: "",
@@ -31,14 +30,6 @@ async function fetchGameById(gameId: string | number) {
 }
 
 async function fetchRandomGame() {
-  // const res = await fetch("api/game/random", {
-  //   next: {
-  //     revalidate: 60,
-  //   },
-  // });
-
-  // const data = await res.json();
-  // return data;
   const maxGameId = 10000;
   const id = new Date().getTime() % maxGameId;
   return fetchGameById(id);
@@ -92,7 +83,6 @@ const Board = () => {
     event.preventDefault();
     setLoading(true);
     const data = await fetchGameById(gameId);
-    console.log("Retrieved game by id: ", data);
 
     initializeGame(data);
   };
@@ -101,7 +91,6 @@ const Board = () => {
     event.preventDefault();
     setLoading(true);
     const data = await fetchRandomGame();
-    console.log("Retrieved random game: ", data);
 
     initializeGame(data);
   };
